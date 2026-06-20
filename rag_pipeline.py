@@ -13,11 +13,15 @@ import sys
 load_dotenv()
 
 # Try to get API key from Streamlit secrets first, then fall back to environment
+GOOGLE_API_KEY = None
 try:
     import streamlit as st
-    GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY")
-except:
-    GOOGLE_API_KEY = None
+    if "GOOGLE_API_KEY" in st.secrets:
+        GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+except ImportError:
+    pass
+except Exception as e:
+    print(f"Error accessing Streamlit secrets: {e}")
 
 # If not found in Streamlit, try environment variable
 if not GOOGLE_API_KEY:

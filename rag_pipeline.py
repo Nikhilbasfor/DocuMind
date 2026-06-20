@@ -8,10 +8,16 @@ from dotenv import load_dotenv
 import pytesseract
 from pdf2image import convert_from_path
 import os
+import sys
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+# Set Tesseract path based on OS
+if sys.platform == "win32":
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+elif sys.platform in ["linux", "linux2"]:
+    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 def split_into_chunks(pages):
     splitter = RecursiveCharacterTextSplitter(

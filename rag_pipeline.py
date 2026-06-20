@@ -11,7 +11,17 @@ import os
 import sys
 
 load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+# Try to get API key from Streamlit secrets first, then fall back to environment
+try:
+    import streamlit as st
+    GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY")
+except:
+    GOOGLE_API_KEY = None
+
+# If not found in Streamlit, try environment variable
+if not GOOGLE_API_KEY:
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Set Tesseract path based on OS
 if sys.platform == "win32":

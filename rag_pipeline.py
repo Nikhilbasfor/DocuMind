@@ -59,7 +59,7 @@ def create_qa_chain(vector_store):
 
 def process_pdf_and_query(pdf_path, question):
     try:
-        images = convert_from_path(pdf_path, poppler_path=r'C:\poppler\poppler-26.02.0\Library\bin')
+        images = convert_from_path(pdf_path)        
         pages = []
         for i, image in enumerate(images):
             text = pytesseract.image_to_string(image)
